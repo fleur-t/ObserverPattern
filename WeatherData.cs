@@ -21,18 +21,24 @@ namespace ObserverPattern
         // instance variables
         public void NotifyObservers()
         {
-            // Loop through the observers and call Update() with the appropriate fields
+            foreach (IObserver observer in observers)
+            {
+                observer.Update(temperature, humidity, pressure);
+            }
         }
 
         public void RegisterObserver(Observer o)
         {
-            // Check if observer is not already subscribed, if not then add to the list of observers
+            observers.Add(o);
         }
 
         public void RemoveObserver(Observer o)
         {
-            // Check if observer is subscribed, if they are then remove from the list of observers
-           
+            if (observers.Contains(o))
+            {
+                observers.Remove(o);
+            }
+
         }
 
         public void MeasurementChanged()

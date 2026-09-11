@@ -16,18 +16,32 @@ namespace ObserverPattern.Displays
         private int countUpdated = 0;
         private Subject weatherData;
         public StatisticsDisplay(Subject weatherData) 
-        { 
-            // Set the field and register itself with the weatherdata subject
+        {
+            this.weatherData = weatherData;
+            weatherData.RegisterObserver(this);
         }
         public void Update(float temp, float humidity, float pressure)
         {
-            // Set the correct fields with the relevant parameters
+            sumTemperature += temp;
+            countUpdated++;
+
+            if (temp > maxTemp)
+            {
+                maxTemp = temp;
+            }
+
+            if (temp < minTemp)
+            {
+                minTemp = temp;
+            }
+
             Display();
         }
 
         public void Display()
         {
-            // Print the average, maximum and minimum temperature. Use appropriate fields
+            float avgTemp = sumTemperature / countUpdated;
+            Console.WriteLine($"Statistieken: Gem/Max/Min temperatuur = {avgTemp:F1}/{maxTemp:F1}/{minTemp:F1}°C");
         }
     }
 }
